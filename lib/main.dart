@@ -9,14 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Maps App',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('App'),
-        ),
-        body: const LoadingScreen()
+        body: GpsAccessScreen()
       ),
     );
   }

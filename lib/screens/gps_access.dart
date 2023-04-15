@@ -5,7 +5,41 @@ class GpsAccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('GpsAccessScreen')),
+      body: Center(child: _EnableGpsAccessButton()),
     );
+  }
+}
+
+class _EnableGpsAccessButton extends StatelessWidget {
+  const _EnableGpsAccessButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('You have to grant us GPS access',
+            style: TextStyle(fontSize: 17, color: Colors.black87)),
+        MaterialButton(
+            color: Colors.black87,
+            shape: const StadiumBorder(),
+            splashColor: Colors.transparent,
+            onPressed: () {
+              // TODO: Grant access
+            },
+            child: const Text('Grant Access',
+                style: TextStyle(color: Colors.white)))
+      ],
+    );
+  }
+}
+
+class _EnableGpsMessage extends StatelessWidget {
+  const _EnableGpsMessage();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Text('You have to enable GPS',
+        style: TextStyle(fontSize: 20, color: Colors.black54));
   }
 }
