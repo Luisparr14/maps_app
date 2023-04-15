@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:maps_app/blocs/blocs.dart';
 
 class GpsAccessScreen extends StatelessWidget {
   const GpsAccessScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: _EnableGpsAccessButton()),
+    return Scaffold(
+      body: BlocBuilder<GpsBloc, GpsState>(
+        builder: (context, state) => Center(
+            child: state.isGpsEnable
+                ? const _EnableGpsAccessButton()
+                : const _EnableGpsMessage()),
+      ),
     );
   }
 }
