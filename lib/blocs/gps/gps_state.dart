@@ -9,4 +9,10 @@ class GpsState extends Equatable {
 
   @override
   List<Object> get props => [isGpsEnable, isGpsPermissionGranted];
+
+  GpsState copyWith({bool? isGpsEnable, bool? isGpsPermissionGranted}) =>
+      GpsState(
+          isGpsEnable: isGpsEnable ?? this.isGpsEnable,
+          isGpsPermissionGranted:
+              isGpsPermissionGranted ?? this.isGpsPermissionGranted);
 }
