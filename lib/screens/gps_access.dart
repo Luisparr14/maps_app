@@ -23,6 +23,8 @@ class _EnableGpsAccessButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gpsBloc = BlocProvider.of<GpsBloc>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -33,7 +35,7 @@ class _EnableGpsAccessButton extends StatelessWidget {
             shape: const StadiumBorder(),
             splashColor: Colors.transparent,
             onPressed: () {
-              // TODO: Grant access
+              gpsBloc.askLocationPermission();
             },
             child: const Text('Grant Access',
                 style: TextStyle(color: Colors.white)))
