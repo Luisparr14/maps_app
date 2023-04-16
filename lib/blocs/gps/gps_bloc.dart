@@ -24,14 +24,21 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> {
   }
 
   Future<void> _init() async {
-    _checkLocationStatus();
+    final gpsInitStatus =
+        await Future.wait([_checkLocationStatus(), _isPermissionGranted()]);
+
+    add(GpsAndPermissions(
+        isGpsEnable: gpsInitStatus[0],
+        isGpsPermissionGranted: gpsInitStatus[1]));
+  }
+
+  Future<bool> _isPermissionGranted() {
+    return Permission.location.isGranted;
   }
 
   Future<bool> _checkLocationStatus() async {
     var isLocationEnable = await Geolocator.isLocationServiceEnabled();
-    add(GpsAndPermissions(
-        isGpsEnable: isLocationEnable,
-        isGpsPermissionGranted: state.isGpsPermissionGranted));
+
     gpsStreamSubscription = Geolocator.getServiceStatusStream().listen((event) {
       isLocationEnable = (event.index == 1) ? true : false;
       add(GpsAndPermissions(
