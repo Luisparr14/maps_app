@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maps_app/blocs/location/location_bloc.dart';
+import 'package:maps_app/blocs/blocs.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -10,12 +10,21 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  late LocationBloc locationBloc = BlocProvider.of<LocationBloc>(context);
+
   @override
   void initState() {
-    final locationBloc = BlocProvider.of<LocationBloc>(context);
-
-    locationBloc.startFollowingUser();
     super.initState();
+    final GpsBloc gpsBloc = BlocProvider.of<GpsBloc>(context);
+    if (gpsBloc.state.isAllGranted) {
+      locationBloc.startFollowingUser();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // locationBloc.stopFollowingUser();
   }
 
   @override
