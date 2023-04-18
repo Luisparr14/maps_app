@@ -35,8 +35,10 @@ class _MapScreenState extends State<MapScreen> {
       if (state.lastLocation == null) {
         return const Center(child: Text('Please, wait'));
       }
-      return Stack(
-        children: [MapView(initialLcoation: state.lastLocation!)],
+      return SingleChildScrollView(
+        child: Stack(
+          children: [MapView(initialLcoation: state.lastLocation!)],
+        ),
       );
     }));
   }
