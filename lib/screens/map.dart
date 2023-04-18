@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_app/blocs/blocs.dart';
-import 'package:maps_app/views/map_view.dart';
+import 'package:maps_app/views/views.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
