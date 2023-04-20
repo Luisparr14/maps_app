@@ -21,6 +21,8 @@ class MapView extends StatelessWidget {
         child: GoogleMap(
           onMapCreated: (controller) =>
               mapBloc.add(OnMapInitialized(controller)),
+          myLocationButtonEnabled: false,
+          zoomControlsEnabled: false,
           initialCameraPosition: initialCameraPosition,
           myLocationEnabled: true,
         ));

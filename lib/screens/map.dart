@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_app/blocs/blocs.dart';
 import 'package:maps_app/views/views.dart';
+import 'package:maps_app/widgets/widgets.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -40,6 +41,14 @@ class _MapScreenState extends State<MapScreen> {
           children: [MapView(initialLcoation: state.lastLocation!)],
         ),
       );
-    }));
+    }),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    floatingActionButton: const Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        CurrentLocationBtn()
+      ],
+    ),
+    );
   }
 }

@@ -35,7 +35,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     add(const OnFollowUser(followUser: true));
     _positionSubscription =
         Geolocator.getPositionStream().listen((Position position) {
-      print('follow');
       add(OnNewUserLocation(LatLng(position.latitude, position.longitude)));
     });
   }

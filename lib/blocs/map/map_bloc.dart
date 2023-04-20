@@ -20,4 +20,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     mapCtrl!.setMapStyle(jsonEncode(watchDogsTheme));
     emit(state.copyWith(isMapInitialized: true));
   }
+
+  void moveCamera(LatLng newPosition) {
+    final cameraUpdate = CameraUpdate.newLatLngZoom(newPosition, 18);
+    mapCtrl?.animateCamera(cameraUpdate);
+  }
 }
