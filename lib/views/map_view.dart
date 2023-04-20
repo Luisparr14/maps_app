@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_app/blocs/map/map_bloc.dart';
 
 class MapView extends StatelessWidget {
   final LatLng initialLcoation;
@@ -7,6 +9,7 @@ class MapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mapBloc = BlocProvider.of<MapBloc>(context);
     final CameraPosition initialCameraPosition =
         CameraPosition(target: initialLcoation, zoom: 15);
 
@@ -16,6 +19,8 @@ class MapView extends StatelessWidget {
         height: size.height,
         width: size.width,
         child: GoogleMap(
+          onMapCreated: (controller) =>
+              mapBloc.add(OnMapInitialized(controller)),
           initialCameraPosition: initialCameraPosition,
           myLocationEnabled: true,
         ));
