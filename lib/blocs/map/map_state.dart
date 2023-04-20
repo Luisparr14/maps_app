@@ -18,5 +18,5 @@ class MapState extends Equatable {
           isMapInitialized: isMapInitialized ?? this.isMapInitialized);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [isMapInitialized, followUser];
 }
