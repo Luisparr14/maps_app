@@ -31,25 +31,32 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:
-        BlocBuilder<LocationBloc, LocationState>(builder: (context, state) {
-      if (state.lastLocation == null) {
-        return const Center(child: Text('Please, wait'));
-      }
-      return SingleChildScrollView(
-        child: Stack(
-          children: [MapView(initialLcoation: state.lastLocation!)],
-        ),
-      );
-    }),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    floatingActionButton: const Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FollowUserButton(),
-        CurrentLocationBtn()
-      ],
-    ),
+    return Scaffold(
+      body: BlocBuilder<LocationBloc, LocationState>(
+          builder: (context, locationState) {
+        if (locationState.lastLocation == null) {
+          return const Center(child: Text('Please, wait'));
+        }
+        return BlocBuilder<MapBloc, MapState>(
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: Stack(
+                children: [
+                  MapView(
+                    initialLcoation: locationState.lastLocation!,
+                    polylines: state.polylines.values.toSet(),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: const Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [FollowUserButton(), CurrentLocationBtn()],
+      ),
     );
   }
 }
