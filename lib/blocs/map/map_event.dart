@@ -18,3 +18,9 @@ class OnToggleFollowUser extends MapEvent {
 
   const OnToggleFollowUser(this.followUser);
 }
+
+class OnUpdatePolylinesTrace extends MapEvent {
+  final List<LatLng> userLocations;
+
+  const OnUpdatePolylinesTrace(this.userLocations);
+}
