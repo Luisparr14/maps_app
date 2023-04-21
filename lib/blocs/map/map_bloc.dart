@@ -18,6 +18,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnMapInitialized>(_onInitMap);
     on<OnToggleFollowUser>(_onToggleFollowUser);
     on<OnUpdatePolylinesTrace>(_tracePolyline);
+    on<OnToggleShowMyRoute>(
+        (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
 
     locationBloc.stream.listen((locationState) {
       if (locationState.lastLocation != null) {
