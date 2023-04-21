@@ -12,3 +12,9 @@ class OnMapInitialized extends MapEvent {
 
   const OnMapInitialized(this.mapController);
 }
+
+class OnToggleFollowUser extends MapEvent {
+  final bool followUser;
+
+  const OnToggleFollowUser(this.followUser);
+}
