@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
@@ -13,6 +14,7 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
   GoogleMapController? mapCtrl;
+  StreamSubscription<LocationState>? locationSubscription;
 
   MapBloc({required this.locationBloc}) : super(const MapState()) {
     on<OnMapInitialized>(_onInitMap);
@@ -21,7 +23,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnToggleShowMyRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
 
-    locationBloc.stream.listen((locationState) {
+    locationSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastLocation != null) {
         add(OnUpdatePolylinesTrace(locationState.locationHistory));
       }
@@ -65,5 +67,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   void moveCamera(LatLng newPosition) {
     final cameraUpdate = CameraUpdate.newLatLngZoom(newPosition, 16);
     mapCtrl?.animateCamera(cameraUpdate);
+  }
+
+  @override
+  Future<void> close() {
+    locationSubscription?.cancel();
+    return super.close();
   }
 }
