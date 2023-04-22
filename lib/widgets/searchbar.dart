@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_app/delegates/delegates.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
@@ -11,7 +12,7 @@ class CustomSearchBar extends StatelessWidget {
         width: double.infinity,
         height: 40,
         child: GestureDetector(
-          onTap: () => print('ontap'),
+          onTap: () => showSearch(context: context, delegate: SearchDestinationDelegate()),
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.symmetric(horizontal: 30),
