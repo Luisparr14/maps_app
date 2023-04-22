@@ -12,7 +12,14 @@ class CustomSearchBar extends StatelessWidget {
         width: double.infinity,
         height: 40,
         child: GestureDetector(
-          onTap: () => showSearch(context: context, delegate: SearchDestinationDelegate()),
+          onTap: () async {
+            final result = await showSearch(
+                context: context, delegate: SearchDestinationDelegate());
+
+            if (result == null) return;
+
+            print(result);
+          },
           child: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -21,7 +28,9 @@ class CustomSearchBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(1000),
                 boxShadow: const [
                   BoxShadow(
-                      color: Colors.white54, blurRadius: 10, offset: Offset(0, 1))
+                      color: Colors.white54,
+                      blurRadius: 10,
+                      offset: Offset(0, 1))
                 ]),
             child: const Text(
               '¿Donde quieres ir?',

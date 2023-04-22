@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:maps_app/models/models.dart';
 
-class SearchDestinationDelegate extends SearchDelegate {
+class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -16,7 +17,7 @@ class SearchDestinationDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
-          close(context, null);
+          close(context, SearchResult(cancel: true));
         },
         icon: const Icon(Icons.arrow_back_ios));
   }
@@ -28,13 +29,14 @@ class SearchDestinationDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-        return ListView(
+    return ListView(
       children: [
         ListTile(
-          leading: const Icon(Icons.location_on_rounded),
-          title: const Text('Add marker manualyy'),
-          onTap: () => print('ontap'),
-        )
+            leading: const Icon(Icons.location_on_rounded),
+            title: const Text('Add marker manualyy'),
+            onTap: () {
+              close(context, SearchResult(cancel: false, manual: true));
+            })
       ],
     );
   }
