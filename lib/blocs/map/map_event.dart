@@ -26,3 +26,10 @@ class OnUpdatePolylinesTrace extends MapEvent {
 }
 
 class OnToggleShowMyRoute extends MapEvent {}
+
+class TraceRouteStartToEnd extends MapEvent {
+  final Map<String, Polyline> polylines;
+
+  const TraceRouteStartToEnd(this.polylines);
+  
+}

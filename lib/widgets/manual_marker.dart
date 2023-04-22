@@ -59,7 +59,8 @@ class _BtnConfirmLocation extends StatelessWidget {
             final start = locationBloc.state.lastLocation;
             final end = mapBloc.mapCenter;
             if (start == null || end == null) return;
-            await search.getCoordsStartToEnd(start, end);
+            final destination = await search.getCoordsStartToEnd(start, end);
+            mapBloc.traceRouteStartToEnd(destination);
           },
           color: Colors.black87,
           minWidth: size.width - 110,
