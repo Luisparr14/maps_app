@@ -68,7 +68,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(state.copyWith(polylines: currentPolyline));
   }
 
-  void traceRouteStartToEnd(RouteDestination destination) {
+  Future<void> traceRouteStartToEnd(RouteDestination destination) async {
     final currentPolyline = Map<String, Polyline>.from(state.polylines);
     final myRoute = Polyline(
       polylineId: const PolylineId('RouteStartToEnd'),

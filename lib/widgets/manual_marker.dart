@@ -1,8 +1,9 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:animate_do/animate_do.dart';
+
 import 'package:maps_app/blocs/blocs.dart';
+import 'package:maps_app/helpers/loading_message.dart';
 
 class ManualMarker extends StatelessWidget {
   const ManualMarker({super.key});
@@ -44,13 +45,14 @@ class _ManualMarkerBody extends StatelessWidget {
 
 class _BtnConfirmLocation extends StatelessWidget {
   const _BtnConfirmLocation();
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final locationBloc = BlocProvider.of<LocationBloc>(context);
     final mapBloc = BlocProvider.of<MapBloc>(context);
     final search = BlocProvider.of<SearchBloc>(context);
+    showLoading() => showLoadingMessage(context);
+    goBack() => Navigator.pop(context);
 
     return FadeInUp(
       duration: const Duration(milliseconds: 300),
@@ -59,8 +61,11 @@ class _BtnConfirmLocation extends StatelessWidget {
             final start = locationBloc.state.lastLocation;
             final end = mapBloc.mapCenter;
             if (start == null || end == null) return;
+            showLoading();
             final destination = await search.getCoordsStartToEnd(start, end);
-            mapBloc.traceRouteStartToEnd(destination);
+            search.add(const OnToggleManualMarker(false));
+            await mapBloc.traceRouteStartToEnd(destination);
+            goBack();
           },
           color: Colors.black87,
           minWidth: size.width - 110,
