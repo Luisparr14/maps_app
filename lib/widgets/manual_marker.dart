@@ -1,13 +1,25 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_app/blocs/blocs.dart';
 
 class ManualMarker extends StatelessWidget {
   const ManualMarker({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) => state.displayManualMarker ? const _ManualMarkerBody() : const SizedBox()
+    );
+  }
+}
 
+class _ManualMarkerBody extends StatelessWidget {
+  const _ManualMarkerBody();
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width,
       height: size.height,
@@ -59,6 +71,7 @@ class _BtnBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
     return FadeInLeft(
       duration: const Duration(milliseconds: 300),
       child: CircleAvatar(
@@ -66,7 +79,7 @@ class _BtnBack extends StatelessWidget {
         minRadius: 18,
         child: IconButton(
             onPressed: () {
-              print('Back');
+              searchBloc.add(const OnToggleManualMarker(false));
             },
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       ),

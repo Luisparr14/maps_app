@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:maps_app/blocs/blocs.dart';
 import 'package:maps_app/models/models.dart';
 
 class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
@@ -33,7 +35,7 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
       children: [
         ListTile(
             leading: const Icon(Icons.location_on_rounded),
-            title: const Text('Add marker manualyy'),
+            title: const Text('Add marker manualy'),
             onTap: () {
               close(context, SearchResult(cancel: false, manual: true));
             })

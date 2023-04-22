@@ -5,7 +5,7 @@ class SearchState extends Equatable {
 
   const SearchState({this.displayManualMarker = false});
 
-  SearchState copyWith(bool? displayManualMarker) => SearchState(
+  SearchState copyWith({bool? displayManualMarker}) => SearchState(
       displayManualMarker: displayManualMarker ?? this.displayManualMarker);
 
   @override
