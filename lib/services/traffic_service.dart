@@ -7,7 +7,7 @@ class TrafficService {
 
   TrafficService() : _dioTraffic = Dio();
 
-  Future getCoorsStartToEnd(LatLng start, LatLng end) async {
+  Future getCoordsStartToEnd(LatLng start, LatLng end) async {
     final coorsString =
         '${start.longitude}, ${start.latitude};${end.longitude},${end.latitude}';
     final url = '$_trafficBaseUrl/driving/$coorsString';

@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:maps_app/blocs/blocs.dart';
 
 class ManualMarker extends StatelessWidget {
@@ -9,8 +10,9 @@ class ManualMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchBloc, SearchState>(
-      builder: (context, state) => state.displayManualMarker ? const _ManualMarkerBody() : const SizedBox()
-    );
+        builder: (context, state) => state.displayManualMarker
+            ? const _ManualMarkerBody()
+            : const SizedBox());
   }
 }
 
@@ -30,7 +32,8 @@ class _ManualMarkerBody extends StatelessWidget {
             child: Transform.translate(
                 offset: const Offset(0, -15),
                 child: BounceInDown(
-                    child: const Icon(Icons.location_on_rounded, size: 40, color: Colors.white))),
+                    child: const Icon(Icons.location_on_rounded,
+                        size: 40, color: Colors.white))),
           ),
           const Positioned(bottom: 40, left: 40, child: _BtnConfirmLocation()),
         ],
@@ -45,11 +48,19 @@ class _BtnConfirmLocation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final locationBloc = BlocProvider.of<LocationBloc>(context);
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    final search = BlocProvider.of<SearchBloc>(context);
 
     return FadeInUp(
       duration: const Duration(milliseconds: 300),
       child: MaterialButton(
-          onPressed: () {},
+          onPressed: () async {
+            final start = locationBloc.state.lastLocation;
+            final end = mapBloc.mapCenter;
+            if (start == null || end == null) return;
+            await search.getCoordsStartToEnd(start, end);
+          },
           color: Colors.black87,
           minWidth: size.width - 110,
           height: 40,

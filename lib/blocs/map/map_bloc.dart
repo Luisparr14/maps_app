@@ -14,6 +14,7 @@ part 'map_state.dart';
 class MapBloc extends Bloc<MapEvent, MapState> {
   final LocationBloc locationBloc;
   GoogleMapController? mapCtrl;
+  LatLng? mapCenter;
   StreamSubscription<LocationState>? locationSubscription;
 
   MapBloc({required this.locationBloc}) : super(const MapState()) {
