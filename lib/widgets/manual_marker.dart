@@ -30,7 +30,7 @@ class _ManualMarkerBody extends StatelessWidget {
             child: Transform.translate(
                 offset: const Offset(0, -15),
                 child: BounceInDown(
-                    child: const Icon(Icons.location_on_rounded, size: 40))),
+                    child: const Icon(Icons.location_on_rounded, size: 40, color: Colors.white))),
           ),
           const Positioned(bottom: 40, left: 40, child: _BtnConfirmLocation()),
         ],
