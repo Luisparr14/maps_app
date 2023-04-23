@@ -27,15 +27,16 @@ class MapBoxService {
     return data;
   }
 
-  Future getResultsByQuery(LatLng proximity, String query) async {
+  Future<List<Feature>> getResultsByQuery(
+      LatLng proximity, String query) async {
     final proximityParam = '${proximity.longitude},${proximity.latitude}';
     if (query.isEmpty) return [];
     final url = '$_placesBaseUrl/$query.json';
     final res = await _dioPlaces
         .get(url, queryParameters: {'proximity': proximityParam});
 
-    // TODO: From.Json()
+    final placesResponse = PlacesResponse.fromJson(res.data);
 
-    return res.data;
+    return placesResponse.features;
   }
 }
