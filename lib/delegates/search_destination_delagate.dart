@@ -46,15 +46,14 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
                 onTap: () {
                   final lng = place.center[0];
                   final lat = place.center[1];
-
                   final result = SearchResult(
                       cancel: false,
                       position: LatLng(lat, lng),
                       myLocation: proximity,
                       name: place.text,
                       description: place.placeName);
-
                   close(context, result);
+                  searchBloc.add(OnAddNewElementToHistory(place));
                 },
               );
             },
@@ -67,15 +66,24 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-            leading: const Icon(Icons.location_on_rounded),
-            title: const Text('Add marker manualy'),
-            onTap: () {
-              close(context, SearchResult(cancel: false, manual: true));
-            })
-      ],
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        return ListView(
+          children: [
+            ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: const Text('Add marker manualy'),
+                onTap: () {
+                  close(context, SearchResult(cancel: false, manual: true));
+                }),
+            ...state.history.map((e) => ListTile(
+                  title: Text(e.text),
+                  subtitle: Text(e.placeName),
+                  leading: const Icon(Icons.location_on_rounded),
+                ))
+          ],
+        );
+      },
     );
   }
 }

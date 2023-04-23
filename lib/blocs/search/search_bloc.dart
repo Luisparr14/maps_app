@@ -13,9 +13,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc({required this.trafficService}) : super(const SearchState()) {
     on<SearchEvent>((event, emit) {});
+
     on<OnToggleManualMarker>((event, emit) =>
         emit(state.copyWith(displayManualMarker: event.activate)));
-    on<OnNewPlacesFound>((event, emit) => emit(state.copyWith(places: event.newPlaces)));
+
+    on<OnNewPlacesFound>(
+        (event, emit) => emit(state.copyWith(places: event.newPlaces)));
+
+    on<OnAddNewElementToHistory>((event, emit) =>
+        emit(state.copyWith(history: [event.newElement, ...state.history])));
   }
 
   Future<RouteDestination> getCoordsStartToEnd(LatLng start, LatLng end) async {

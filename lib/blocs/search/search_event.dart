@@ -18,3 +18,9 @@ class OnNewPlacesFound extends SearchEvent {
 
   const OnNewPlacesFound(this.newPlaces);
 }
+
+class OnAddNewElementToHistory extends SearchEvent {
+  final Feature newElement;
+
+  const OnAddNewElementToHistory(this.newElement);
+}
