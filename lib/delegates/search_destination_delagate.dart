@@ -26,7 +26,15 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('buildResults');
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
+    final proximity = BlocProvider.of<LocationBloc>(context).state.lastLocation;
+    searchBloc.getFeaturesByQuery(proximity!, query);
+
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        return const Text('Those are the results');
+      },
+    );
   }
 
   @override

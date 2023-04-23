@@ -26,9 +26,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final points = decodePolyline(geometry, accuracyExponent: 6);
 
     final latLngList = points
-        .map((coords) => LatLng(coords[0].toDouble(), coords[1].toDouble())).toList();
+        .map((coords) => LatLng(coords[0].toDouble(), coords[1].toDouble()))
+        .toList();
 
     return RouteDestination(
         points: latLngList, distance: distance, duration: duration);
+  }
+
+  Future getFeaturesByQuery(LatLng proximity, String query) async {
+    trafficService.getResultsByQuery(proximity, query);
   }
 }

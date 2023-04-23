@@ -125,8 +125,8 @@ class Context {
     String textEs;
     String text;
     String? wikidata;
-    Language? languageEs;
-    Language? language;
+    String? languageEs;
+    String? language;
     String? shortCode;
 
     factory Context.fromJson(Map<String, dynamic> json) => Context(
@@ -135,8 +135,8 @@ class Context {
         textEs: json["text_es"],
         text: json["text"],
         wikidata: json["wikidata"],
-        languageEs: languageValues.map[json["language_es"]]!,
-        language: languageValues.map[json["language"]]!,
+        languageEs: json["language_es"],
+        language: json["language"],
         shortCode: json["short_code"],
     );
 
@@ -146,17 +146,11 @@ class Context {
         "text_es": textEs,
         "text": text,
         "wikidata": wikidata,
-        "language_es": languageValues.reverse[languageEs],
-        "language": languageValues.reverse[language],
+        "language_es": languageEs,
+        "language": language,
         "short_code": shortCode,
     };
 }
-
-enum Language { ES }
-
-final languageValues = EnumValues({
-    "es": Language.ES
-});
 
 class Geometry {
     Geometry({
