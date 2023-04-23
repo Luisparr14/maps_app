@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maps_app/blocs/blocs.dart';
 import 'package:maps_app/delegates/delegates.dart';
+import 'package:maps_app/helpers/helpers.dart';
 import 'package:maps_app/models/models.dart';
 
 class CustomSearchBar extends StatelessWidget {
@@ -22,12 +23,25 @@ class _CustomSearchBarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mapBloc = BlocProvider.of<MapBloc>(context);
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
+    goBack() => Navigator.pop(context);
+
     void onSearchResults(SearchResult result) {
       final searchBloc = BlocProvider.of<SearchBloc>(context);
       if (result.manual) {
         searchBloc.add(OnToggleManualMarker(result.manual));
         return;
       }
+    }
+
+    void goToPlace(SearchResult result) async {
+      if (result.position == null || result.myLocation == null) return;
+      showLoadingMessage(context);
+      final destination = await searchBloc.getCoordsStartToEnd(
+          result.myLocation!, result.position!);
+      await mapBloc.traceRouteStartToEnd(destination);
+      goBack();
     }
 
     return FadeInDown(
@@ -43,6 +57,7 @@ class _CustomSearchBarBody extends StatelessWidget {
                   context: context, delegate: SearchDestinationDelegate());
               if (result == null) return;
               onSearchResults(result);
+              goToPlace(result);
             },
             child: Container(
               alignment: Alignment.center,

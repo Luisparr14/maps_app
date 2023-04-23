@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animate_do/animate_do.dart';
 
 import 'package:maps_app/blocs/blocs.dart';
-import 'package:maps_app/helpers/loading_message.dart';
+import 'package:maps_app/helpers/helpers.dart';
 
 class ManualMarker extends StatelessWidget {
   const ManualMarker({super.key});

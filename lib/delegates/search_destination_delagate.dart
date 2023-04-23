@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_app/blocs/blocs.dart';
 import 'package:maps_app/models/models.dart';
+import 'package:maps_app/helpers/helpers.dart';
 
 class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
   @override
@@ -34,14 +36,28 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
       builder: (context, state) {
         final places = state.places;
         return ListView.separated(
-            itemBuilder: (_, index) => ListTile(
-                  title: Text(places[index].text),
-                  subtitle: Text(places[index].placeName,
-                      style: const TextStyle(fontSize: 12)),
-                  onTap: () {
-                    print(places[index]);
-                  },
-                ),
+            itemBuilder: (_, index) {
+              final place = places[index];
+
+              return ListTile(
+                title: Text(place.text),
+                subtitle:
+                    Text(place.placeName, style: const TextStyle(fontSize: 12)),
+                onTap: () {
+                  final lng = place.center[0];
+                  final lat = place.center[1];
+
+                  final result = SearchResult(
+                      cancel: false,
+                      position: LatLng(lat, lng),
+                      myLocation: proximity,
+                      name: place.text,
+                      description: place.placeName);
+
+                  close(context, result);
+                },
+              );
+            },
             separatorBuilder: (_, index) =>
                 const Divider(color: Colors.black87, height: 0),
             itemCount: places.length);
