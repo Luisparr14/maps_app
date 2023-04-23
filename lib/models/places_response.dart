@@ -106,6 +106,11 @@ class Feature {
         "matching_text": matchingText,
         "matching_place_name": matchingPlaceName,
     };
+
+    @override
+  String toString() {
+    return 'Feature(id: $id, text: $text';
+  }
 }
 
 class Context {
