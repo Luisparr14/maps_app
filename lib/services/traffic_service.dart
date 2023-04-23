@@ -1,14 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
 import 'package:maps_app/models/models.dart';
+import 'package:maps_app/services/places_interceptor.dart';
 import 'package:maps_app/services/services.dart';
 
-class TrafficService {
+class MapBoxService {
   final Dio _dioTraffic;
+  final Dio _dioPlaces;
   final String _trafficBaseUrl = 'https://api.mapbox.com/directions/v5/mapbox';
+  final String _placesBaseUrl =
+      'https://api.mapbox.com/geocoding/v5/mapbox.places';
 
-  TrafficService()
-      : _dioTraffic = Dio()..interceptors.add(TrafficInterceptor());
+  MapBoxService()
+      : _dioTraffic = Dio()..interceptors.add(TrafficInterceptor()),
+        _dioPlaces = Dio()..interceptors.add(PlacesInterceptor());
 
   Future<TrafficResponse> getCoordsStartToEnd(LatLng start, LatLng end) async {
     final coorsString =
@@ -20,5 +25,17 @@ class TrafficService {
     final data = TrafficResponse.fromJson(res.data);
 
     return data;
+  }
+
+  Future getResultsByQuery(LatLng proximity, String query) async {
+    final proximityParam = '${proximity.longitude},${proximity.latitude}';
+    if (query.isEmpty) return [];
+    final url = '$_placesBaseUrl/$query.json';
+    final res = await _dioPlaces
+        .get(url, queryParameters: {'proximity': proximityParam});
+
+    // TODO: From.Json()
+
+    return res.data;
   }
 }

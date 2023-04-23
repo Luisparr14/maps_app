@@ -9,7 +9,7 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final TrafficService trafficService;
+  final MapBoxService trafficService;
 
   SearchBloc({required this.trafficService}) : super(const SearchState()) {
     on<SearchEvent>((event, emit) {});

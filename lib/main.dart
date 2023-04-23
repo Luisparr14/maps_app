@@ -10,7 +10,7 @@ void main() {
     BlocProvider(create: (_) => GpsBloc()),
     BlocProvider(create: (_) => LocationBloc()),
     BlocProvider(create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
-    BlocProvider(create: (_) => SearchBloc(trafficService: TrafficService()))
+    BlocProvider(create: (_) => SearchBloc(trafficService: MapBoxService()))
   ], child: const MyApp()));
 }
 
