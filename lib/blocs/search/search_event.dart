@@ -12,3 +12,9 @@ class OnToggleManualMarker extends SearchEvent {
 
   const OnToggleManualMarker(this.activate);
 }
+
+class OnNewPlacesFound extends SearchEvent {
+  final List<Feature> newPlaces;
+
+  const OnNewPlacesFound(this.newPlaces);
+}

@@ -32,7 +32,7 @@ class SearchDestinationDelegate extends SearchDelegate<SearchResult> {
 
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
-        return const Text('Those are the results');
+        return Text('Those are the results ${state.places.length}');
       },
     );
   }
