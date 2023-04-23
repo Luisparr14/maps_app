@@ -6,7 +6,12 @@ import 'package:maps_app/blocs/map/map_bloc.dart';
 class MapView extends StatelessWidget {
   final LatLng initialLcoation;
   final Set<Polyline> polylines;
-  const MapView({super.key, required this.initialLcoation, required this.polylines});
+  final Set<Marker> markers;
+  const MapView(
+      {super.key,
+      required this.initialLcoation,
+      required this.polylines,
+      required this.markers});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +25,15 @@ class MapView extends StatelessWidget {
         height: size.height,
         width: size.width,
         child: Listener(
-          onPointerDown: (event) => (mapBloc.add(const OnToggleFollowUser(false))),
+          onPointerDown: (event) =>
+              (mapBloc.add(const OnToggleFollowUser(false))),
           child: GoogleMap(
             onMapCreated: (controller) =>
                 mapBloc.add(OnMapInitialized(controller)),
             onCameraMove: (position) => mapBloc.mapCenter = position.target,
             myLocationButtonEnabled: false,
             polylines: polylines,
+            markers: markers,
             zoomControlsEnabled: false,
             initialCameraPosition: initialCameraPosition,
             myLocationEnabled: true,

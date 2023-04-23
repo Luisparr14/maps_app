@@ -29,7 +29,8 @@ class OnToggleShowMyRoute extends MapEvent {}
 
 class TraceRouteStartToEnd extends MapEvent {
   final Map<String, Polyline> polylines;
+  final Map<String, Marker> markers;
 
-  const TraceRouteStartToEnd(this.polylines);
+  const TraceRouteStartToEnd(this.polylines, this.markers);
   
 }

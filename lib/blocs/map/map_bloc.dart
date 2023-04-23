@@ -24,8 +24,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnUpdatePolylinesTrace>(_tracePolyline);
     on<OnToggleShowMyRoute>(
         (event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
-    on<TraceRouteStartToEnd>(
-        (event, emit) => emit(state.copyWith(polylines: event.polylines)));
+    on<TraceRouteStartToEnd>((event, emit) => emit(
+        state.copyWith(polylines: event.polylines, markers: event.markers)));
 
     locationSubscription = locationBloc.stream.listen((locationState) {
       if (locationState.lastLocation != null) {
@@ -70,6 +70,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   Future<void> traceRouteStartToEnd(RouteDestination destination) async {
     final currentPolyline = Map<String, Polyline>.from(state.polylines);
+    final currentMarkers = Map<String, Marker>.from(state.markers);
+
     final myRoute = Polyline(
       polylineId: const PolylineId('RouteStartToEnd'),
       color: Colors.blue.shade400,
@@ -79,9 +81,24 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       points: destination.points,
     );
 
-    currentPolyline['RouteStartToEnd'] = myRoute;
+    final startMarker = Marker(
+      markerId: const MarkerId('StartMarker'),
+      position: myRoute.points.last,
+    );
 
-    add(TraceRouteStartToEnd(currentPolyline));
+    final endMarker = Marker(
+      markerId: const MarkerId('EndMarker'),
+      position: myRoute.points.first,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      
+    );
+
+    currentPolyline['RouteStartToEnd'] = myRoute;
+    currentMarkers['StartMarker'] = startMarker;
+    currentMarkers['EndMarker'] = endMarker;
+
+
+    add(TraceRouteStartToEnd(currentPolyline, currentMarkers));
   }
 
   void moveCamera(LatLng newPosition) {
