@@ -83,13 +83,21 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
     final startMarker = Marker(
       markerId: const MarkerId('StartMarker'),
-      position: myRoute.points.last,
+      position: myRoute.points.first,
+      infoWindow: const InfoWindow(
+        title: "Start of route",
+        snippet: "This is the start of my route"
+      )
     );
 
     final endMarker = Marker(
       markerId: const MarkerId('EndMarker'),
-      position: myRoute.points.first,
+      position: myRoute.points.last,
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      infoWindow: const InfoWindow(
+        title: "End of route",
+        snippet: "This is the end of my route"
+      )
       
     );
 
