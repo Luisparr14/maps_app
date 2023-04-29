@@ -81,30 +81,27 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       points: destination.points,
     );
 
+    double kms = (destination.distance / 1000).floorToDouble();
+    double tripDistance = (destination.duration / 60).floorToDouble();
+
     final startMarker = Marker(
-      markerId: const MarkerId('StartMarker'),
-      position: myRoute.points.first,
-      infoWindow: const InfoWindow(
-        title: "Start of route",
-        snippet: "This is the start of my route"
-      )
-    );
+        markerId: const MarkerId('StartMarker'),
+        position: myRoute.points.first,
+        infoWindow: InfoWindow(
+            title: "Start of route",
+            snippet:
+                "The Trip Distance is $kms and the duration is $tripDistance"));
 
     final endMarker = Marker(
-      markerId: const MarkerId('EndMarker'),
-      position: myRoute.points.last,
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-      infoWindow: const InfoWindow(
-        title: "End of route",
-        snippet: "This is the end of my route"
-      )
-      
-    );
+        markerId: const MarkerId('EndMarker'),
+        position: myRoute.points.last,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        infoWindow: const InfoWindow(
+            title: "End of route", snippet: "This is the end of my route"));
 
     currentPolyline['RouteStartToEnd'] = myRoute;
     currentMarkers['StartMarker'] = startMarker;
     currentMarkers['EndMarker'] = endMarker;
-
 
     add(TraceRouteStartToEnd(currentPolyline, currentMarkers));
   }
