@@ -33,10 +33,20 @@ class MapBoxService {
     if (query.isEmpty) return [];
     final url = '$_placesBaseUrl/$query.json';
     final res = await _dioPlaces
-        .get(url, queryParameters: {'proximity': proximityParam});
+        .get(url, queryParameters: {'proximity': proximityParam, 'limit': 7});
 
     final placesResponse = PlacesResponse.fromJson(res.data);
 
     return placesResponse.features;
+  }
+
+  Future<Feature> getResultByCoodrs(LatLng proximity) async {
+    final proximityParam = '${proximity.longitude},${proximity.latitude}';
+    final url = '$_placesBaseUrl/$proximityParam.json';
+    final res = await _dioPlaces.get(url, queryParameters: {'limit': 1});
+
+    final placesResponse = PlacesResponse.fromJson(res.data);
+
+    return placesResponse.features[0];
   }
 }

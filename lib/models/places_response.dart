@@ -11,26 +11,22 @@ String placesResponseToJson(PlacesResponse data) => json.encode(data.toJson());
 class PlacesResponse {
     PlacesResponse({
         required this.type,
-        required this.query,
         required this.features,
         required this.attribution,
     });
 
     String type;
-    List<String> query;
     List<Feature> features;
     String attribution;
 
     factory PlacesResponse.fromJson(Map<String, dynamic> json) => PlacesResponse(
         type: json["type"],
-        query: List<String>.from(json["query"].map((x) => x)),
         features: List<Feature>.from(json["features"].map((x) => Feature.fromJson(x))),
         attribution: json["attribution"],
     );
 
     Map<String, dynamic> toJson() => {
         "type": type,
-        "query": List<dynamic>.from(query.map((x) => x)),
         "features": List<dynamic>.from(features.map((x) => x.toJson())),
         "attribution": attribution,
     };

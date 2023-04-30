@@ -96,8 +96,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         markerId: const MarkerId('EndMarker'),
         position: myRoute.points.last,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: const InfoWindow(
-            title: "End of route", snippet: "This is the end of my route"));
+        infoWindow: InfoWindow(
+            title: "End of route",
+            snippet: destination.endPlaceInfo.text));
 
     currentPolyline['RouteStartToEnd'] = myRoute;
     currentMarkers['StartMarker'] = startMarker;
